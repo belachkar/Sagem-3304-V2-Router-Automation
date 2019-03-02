@@ -1,22 +1,22 @@
 {
   "manifest_version": 2,
-  "name": "Automate Sagem 3304 V2 Router",
+  "name": "Sagem 3304 V2 Router Automation",
   "short_name": "Sagem3304V2",
   "description": "Automate Sagem 3304 V2 Router operations",
   "version": "0.0.1",
   "icons": {
-    "128": "img/img_128.png",
-    "64": "img/img_64.png",
-    "48": "img/img_48.png",
-    "32": "img/img_32.png",
-    "24": "img/img_24.png",
-    "16": "img/img_16.png"
+    "128": "img/icons/img_128.png",
+    "64": "img/icons/img_64.png",
+    "48": "img/icons/img_48.png",
+    "32": "img/icons/img_32.png",
+    "24": "img/icons/img_24.png",
+    "16": "img/icons/img_16.png"
   },
   "browser_action": {
     "default_icon": {
-      "32": "img/img_32.png",
-      "24": "img/img_24.png",
-      "16": "img/img_16.png"
+      "32": "img/icons/img_32.png",
+      "24": "img/icons/img_24.png",
+      "16": "img/icons/img_16.png"
     }
   },
   "permissions": [ "background", "http://*/*", "https://*/*", "tabs" ],
