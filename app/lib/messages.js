@@ -3,4 +3,4 @@ const messages = {
   'sendLink': 'SEND THE LINK'
 };
 
-module.exports = { messages };
+// export { messages };

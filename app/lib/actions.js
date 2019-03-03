@@ -1,6 +1,4 @@
-const actions= {};
-
-actions.enableIcon = (tabId, badgeText) => {
+const enableIcon = (tabId, badgeText) => {
   chrome.browserAction.enable(tabId);
   chrome.browserAction.setBadgeText({
     text: badgeText,
@@ -8,7 +6,7 @@ actions.enableIcon = (tabId, badgeText) => {
   });
 };
 
-actions.disableIcon = (tabId) => {
+const disableIcon = (tabId) => {
   chrome.browserAction.disable(tabId);
   chrome.browserAction.setBadgeText({
     text: '',
@@ -16,4 +14,4 @@ actions.disableIcon = (tabId) => {
   });
 };
 
-module.exports = actions;
+// export { enableIcon, disableIcon };

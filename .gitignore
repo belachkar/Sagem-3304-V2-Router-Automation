@@ -5,3 +5,4 @@ dev
 schemas
 test
 test.*
+*.html
