@@ -10,7 +10,8 @@ const pages = {
   basicMain: 'basicMain',
   maintenance: 'maintenance',
   reinitADSL: 'reinitADSL',
-  submit: 'submit'
+  submit: 'submit',
+  reboot: 'reboot'
 };
 
 const btns = {

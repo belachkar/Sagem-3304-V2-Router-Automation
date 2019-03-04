@@ -3,13 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My Extention</title>
+  <title>Sagem 3304-V2 Extension</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T">
   <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css">
 </head>
-<body>
-  
-  
-  <script src="./js/script.js"></script>
+<body class="border border-info">
+
+  <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg justify-content-center">
+        <h3 class="text-info">Sagem 3304 V2 
+          <small class="text-muted">Router Automation</small>
+        </h3>
+    </nav>
+
+    <!-- Main content -->
+  <div class="container">
+    <div class="shadow-sm p-3 mb-5 bg-white rounded">
+
+      <!-- Buttons -->
+      <h4>Actions</h4>
+      <button id="btnReinitADSL" type="button" class="btn btn-outline-success btn-lg btn-block">Reinitialize Connection ADSL</button>
+      <button id="btnRebootRouter" type="button" class="btn btn-outline-success btn-lg btn-block">Reboot</button>
+    </div
+    </div>
+    </div>
+
+    <!-- Footer IP Addresses -->
+    <table class="mb-0 table table-borderless table-light bg-info text-white">
+      <tbody>
+        <tr>
+          <td>Local IP</td>
+          <!-- TODO Get the local IP from script -->
+          <td>___.___.___.___</td>
+        </tr>
+        <tr>
+          <td>public IP</td>
+          <!-- TODO Get the public IP from API by request -->
+          <td>___.___.___.___</td>
+        </tr>
+      </tbody>
+    </table>
+
+  <!-- Scripts -->
+  <!-- <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
+  <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script> -->
+  <script src="./ext/js/jquery.slim.min.js"></script>
+  <script src="./ext/js/popper.min.js"></script>
+  <script src="./ext/js/bootstrap.min.js"></script>
+  <script src="./js/popupScript.js"></script>
 </body>
 </html>

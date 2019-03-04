@@ -14,13 +14,17 @@
 	},
 	"browser_action": {
 		"default_icon": {
+			"128": "img/icons/img_128.png",
+			"64": "img/icons/img_64.png",
+			"48": "img/icons/img_48.png",
 			"32": "img/icons/img_32.png",
 			"24": "img/icons/img_24.png",
 			"16": "img/icons/img_16.png"
 		},
-		"default_title": "Sagem 3304 V2 Router Automation"
+		"default_title": "Sagem 3304 V2 Router Automation",
+		"default_popup": "popup.html"
 	},
-	"permissions": [ "background", "http://*/*", "https://*/*", "tabs" ],
+	"permissions": [ "http://*/*", "https://*/*", "tabs" ],
 	"background": {
 		"scripts": [
 			"./lib/variables.js",

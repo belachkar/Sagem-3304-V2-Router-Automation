@@ -2,23 +2,30 @@
 // import { messages } from '../lib/messages';
 
 // chrome.browserAction.disable();
+console.log('BACKGROUND SCRIPT');
 
 chrome.runtime.onMessage.addListener(function(message, sender, response) {
-  const tabId = sender.tab.id;
-  const msg = message.msg;
+  // const tabId = sender.tab.id;
+  const msg = message.message;
+  console.log(message);
   switch (msg) {
-  case messages.gotIt:
-    enableIcon(tabId, '1');
+  case 'Reinitialize Connection ADSL':
+    reinitADSL()
+      .then(() => response({message: 'Reinitialisation success'}))
+      .catch(handleError);
+    break;
+  case 'Reboot Router':
+    rebootRouter()
+      .then(() => response({message: 'Reboot success'}))
+      .catch(handleError);
     break;
   default:
-    disableIcon(tabId);
     break;
   }
+  return true;
 });
 
 chrome.browserAction.onClicked.addListener(function(srcTab) {
-  console.log('Clicked');
-  reinitADSL();
   // chrome.tabs.sendMessage(srcTab.id, { msg: messages.sendLink }, function(response) {
   //   const { url } = response;
   //   if (url !== undefined) {

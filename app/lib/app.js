@@ -2,12 +2,17 @@
 // import { querystring } from './utils';
 // import { baseUrl, btns, pages, pass, user_name } from './variables';
 
+let isTryLogin = false;
 let isLoggedIn = false;
-let hiddenInputsToSend = {};
 let nextUrlCacheId = null;
+let hiddenInputsToSend = {};
 
 const handleError = (err) => console.error(err.message);
 const getTempUrl = () => `${baseUrl}/cache/${nextUrlCacheId}/index.cgi`;
+
+const afterClickReinit = () => {
+  isTryLogin = false;
+};
 
 const getHiddenInputs = (body) => {
   const inputs = {};
@@ -44,62 +49,54 @@ const getReinitADSLPage = (callback) => {
 const getSubmitPage = (callback) => {
   getPage(pages.submit).then(callback).catch(handleError);
 };
+const getReboot = (callback) => {
+  getPage(pages.reboot).then(callback).catch(handleError);
+};
 
 const getPage = (page) => {
   console.log(`Getting "${page}" page...`);
 
-  updatePageParams(page);
-  const tmpUrl = getTempUrl();
-  let optionsPost = getRequestOptions();
-  console.log(baseUrl);
-  console.log(tmpUrl);
-
   return new Promise((resolve, reject) => {
-    const onComplete = (err, body) => {
+    updatePageParams(page);
+    const tmpUrl = getTempUrl();
+    let optionsPost = getRequestOptions();
+    const onLoaded = (err, body) => {
       if (body) {
+        getNextPageCacheId(body);
         hiddenInputsToSend = getHiddenInputs(body);
-        getNextPage(body);
-        console.log(`"${page.toUpperCase()}" page loaded successfully`);
-        resolve();
+        if (!isTryLogin && (!isLoggedIn || !hiddenInputsToSend['session_id'])) {
+          isTryLogin = true;
+          console.log('Not logged In');
+          login()
+            .then(() => {
+              if (isLoggedIn) {
+                getPage(page).then(() => resolve()).catch(handleError);
+              } else {
+                reject({ message: 'Unable to loggin, retry later.' });
+              }
+            })
+            .catch(handleError);
+        } else if (isTryLogin || isLoggedIn) {
+          console.log(`"${page.toUpperCase()}" page loaded successfully`);
+          resolve();
+        }  else {
+          reject({ message: 'Unable to loggin, retry later.' });
+        }
       } else {
         reject(err);
       }
     };
-
+  
     switch (page) {
     case pages.welcome:
       downloadPage(baseUrl, getRequestOptions('GET'), (err, body) => {
-        onComplete(err, body);
-      });
-      break;
-    case pages.login:
-      downloadPage(tmpUrl, optionsPost, (err, body) => {
-        onComplete(err, body);
-      });
-      break;
-    case pages.basicMain:
-      downloadPage(tmpUrl, optionsPost, (err, body) => {
-        onComplete(err, body);
-      });
-      break;
-    case pages.maintenance:
-      downloadPage(tmpUrl, optionsPost, (err, body) => {
-        onComplete(err, body);
-      });
-      break;
-    case pages.reinitADSL:
-      downloadPage(tmpUrl, optionsPost, (err, body) => {
-        onComplete(err, body);
-      });
-      break;
-    case pages.submit:
-      // params.active_page = params.nav_stack_0 = 801;
-      downloadPage(tmpUrl, optionsPost, (err, body) => {
-        onComplete(err, body);
+        onLoaded(err, body);
       });
       break;
     default:
-      reject({ message: `The page name "${page}" doesn't exist!` });
+      downloadPage(tmpUrl, optionsPost, (err, body) => {
+        onLoaded(err, body);
+      });
       break;
     }
   });
@@ -144,20 +141,23 @@ const updatePageParams = (page) => {
   case pages.submit:
     hiddenInputsToSend['mimic_button_field'] = btns.basic_main.erase_reboot.reinit_adsl.submit.value;
     break;
+  case pages.reboot:
+    hiddenInputsToSend['mimic_button_field'] = btns.basic_main.erase_reboot.submit_button_reboot.value;
+    break;
   default:
     console.error(`"${page}" pages doesn't exist!`);
     break;
   }
 };
 
-const getNextPage = (body) => {
+const getNextPageCacheId = (body) => {
   let res = body.match(/cache\/([\d]*)\//);
   res = res && res[1] ? res[1] : '';
   nextUrlCacheId = res;
 };
 
 const downloadPage = (url, options, callback) => {
-  console.log(`${options['method']} request\t ${url}`);
+  console.log(`${options['method']} request: ${url}`);
   fetch(url, options)
     .then(res => res.text())
     .then(res => callback(null, res))
@@ -166,32 +166,37 @@ const downloadPage = (url, options, callback) => {
 
 const login = () => {
   return new Promise((resolve) => {
-    if (!isLoggedIn) {
-      console.log('Start Login...');
-      getWelcomePage(() => {
-        console.log('Send login credentials');
-        getLoginPage(() => resolve());
-      });
-    } else {
-      resolve();
-    }
+    console.log('Start Login...');
+    getWelcomePage(() => {
+      console.log('Sending login credentials');
+      getLoginPage(() => resolve());
+    });
   });
 };
 
 const reinitADSL = () => {
   console.log('ADSL Reinitialization...');
-  if (!isLoggedIn) {
-    login()
-      .then(() =>
-        getMaintenancePage(() => {
-          getReinitADSLPage(() => {
-            getSubmitPage(() => {
-              console.log('\n\tOperation succeed\n');
-            });
-          });
-        })
-      )
-      .catch(handleError);
-  }
+  afterClickReinit();
+  return new Promise((resolve) => {
+    getMaintenancePage(() => {
+      getReinitADSLPage(() => {
+        getSubmitPage(() => {
+          console.log('\n\tOperation succeed\n');
+          resolve();
+        });
+      });
+    });
+  });
 };
 
+const rebootRouter = () => {
+  console.log('Router Reboot...');
+  return new Promise((resolve) => {
+    getMaintenancePage(() => {
+      getReboot(() => {
+        console.log('\n\tOperation succeed\n');
+        resolve();
+      });
+    });
+  });
+};
