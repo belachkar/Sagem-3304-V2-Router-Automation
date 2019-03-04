@@ -9,12 +9,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, response) {
   const msg = message.message;
   console.log(message);
   switch (msg) {
-  case 'Reinitialize Connection ADSL':
+  case messages['reinitADSL']:
     reinitADSL()
       .then(() => response({message: 'Reinitialisation success'}))
       .catch(handleError);
     break;
-  case 'Reboot Router':
+  case messages['rebootRouter']:
     rebootRouter()
       .then(() => response({message: 'Reboot success'}))
       .catch(handleError);

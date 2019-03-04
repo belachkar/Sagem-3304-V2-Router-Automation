@@ -7,12 +7,12 @@ $(function() {
   };
 
   $('#btnReinitADSL').click(() => {
-    chrome.runtime.sendMessage({ message: 'Reinitialize Connection ADSL' }, (response) => {
+    chrome.runtime.sendMessage({ message: messages['reinitADSL'] }, (response) => {
       console.log(response);
     });
   });
   $('#btnRebootRouter').click(() => {
-    chrome.runtime.sendMessage({ message: 'Reboot Router' }, (response) => {
+    chrome.runtime.sendMessage({ message: messages['rebootRouter'] }, (response) => {
       console.log(response);
     });
   });
