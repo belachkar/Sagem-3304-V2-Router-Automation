@@ -1,9 +1,9 @@
 {
 	"manifest_version": 2,
-	"name": "Sagem 3304 V2 Router Automation",
+	"name": "Sagem 3304 V2 Router Controller",
 	"short_name": "Sagem3304V2",
-	"description": "Automate Sagem 3304 V2 Router operations",
-	"version": "0.0.1",
+	"description": "Control Sagem 3304 V2 Router Basic Operations, and display public and lucal IP Address",
+	"version": "1.0.0",
 	"icons": {
 		"128": "img/icons/img_128.png",
 		"64": "img/icons/img_64.png",
@@ -21,14 +21,14 @@
 			"24": "img/icons/img_24.png",
 			"16": "img/icons/img_16.png"
 		},
-		"default_title": "Sagem 3304 V2 Router Automation",
+		"default_title": "Sagem 3304 V2 Router Controller",
 		"default_popup": "popup.html"
 	},
 	"permissions": [ "<all_urls>" ],
 	"background": {
 		"scripts": [
 			"js/lib/variables.js",
-			"js/lib/config.js",
+			"js/shared/config.js",
 			"js/shared/messages.js",
 			"js/shared/handlers.js",
 			"js/lib/utils.js",
@@ -43,13 +43,12 @@
 			"matches": [ "<all_urls>" ],
 			"js": [
 				"js/ext/jquery.min.js",
-				"js/ext/popper.min.js",
-				"js/ext/bootstrap.min.js",
+				"js/shared/config.js",
 				"js/shared/messages.js",
 				"js/shared/handlers.js",
-				"js/ext/toastMessage.js",
 				"js/contentScript.js"
-			]
+			],
+			"run_at": "document_start"
 		}
 	]
 }

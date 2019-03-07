@@ -3,7 +3,7 @@ if(typeof(SAGEM3304) === 'undefined') SAGEM3304 = {};
 const bg = {};
 console.log('BACKGROUND SCRIPT LOADED');
 
-bg.ipRefreshTime = SAGEM3304.cfg.ipRefreshTime;
+bg.ipRefreshRequestTime = SAGEM3304.cfg.ipRefreshTime;
 bg.urlIPApi = SAGEM3304.vars.urlIPApi;
 bg.reinitADSL = SAGEM3304.app.reinitADSL;
 bg.rebootRouter = SAGEM3304.app.rebootRouter;
@@ -17,14 +17,14 @@ bg.publicIP = null;
 
 bg.sendLocalIP = () => bg.sendMsg({message: bg.messages.LOCALIP, ip: bg.localIP});
 bg.sendPublicIP = () => bg.sendMsg({message: bg.messages.PUBLICIP, ip: bg.publicIP});
-bg.sendPublicIPNotification = (tabId) => bg.sendMsgTab(tabId, {message: bg.messages.PUBLICIPCHANGED, ip: bg.publicIP});
+bg.sendPublicIPNotification = (tabId) => {
+  if (tabId) bg.sendMsgTab(tabId, {message: bg.messages.PUBLICIPCHANGED, ip: bg.publicIP});
+};
 
 bg.getActiveTabId = (callback) => {
   chrome.tabs.query({active: true}, tabs => {
-    const tab = tabs && tabs.length > 0 ? tabs[0] : null;
-    if (tab && tab.id) {
-      callback(tab.id);
-    }
+    const tabId = tabs && tabs.length > 0 && tabs[0].id ? tabs[0].id : null;
+    callback(tabId);
   });
 };
 
@@ -33,11 +33,15 @@ bg.refreshPublicIP = () => {
     .then(res => res.json())
     .then(res => {
       const ip = res.ip;
-      if (bg.publicIP && bg.publicIP !== ip) {
+      const oldIP = bg.publicIP;
+      const isIPChanged = ip && oldIP !== ip;
+      if (isIPChanged) {
         bg.publicIP = ip;
-        console.log('IP public address changed:', ip);
         bg.updatePopupView();
-        // bg.sendPublicIPNotification();
+        if (oldIP) {
+          console.log('IP public address changed:', ip);
+          bg.getActiveTabId((tabId) => bg.sendPublicIPNotification(tabId));
+        }
       }
     })
     .catch(bg.handleError);
@@ -45,21 +49,33 @@ bg.refreshPublicIP = () => {
 
 bg.updatePopupView = () => {
   const popupActiveScriptsNbr = chrome.extension.getViews({type: 'popup'}).length;
-  console.log('POPUP scripts active: ', popupActiveScriptsNbr);
+  if (popupActiveScriptsNbr > 0) {
+    if (bg.localIP) bg.sendLocalIP();
+    if (bg.publicIP) bg.sendPublicIP();
+  }
+};
+bg.showIPNotification = () => {
+  const popupActiveScriptsNbr = chrome.extension.getViews({type: 'tab'}).length;
   if (popupActiveScriptsNbr > 0) {
     if (bg.localIP) bg.sendLocalIP();
     if (bg.publicIP) bg.sendPublicIP();
   }
 };
 
-bg.run = () => {
-  console.log('BACKGROUND SCRIPT RUN');
+bg.startIPRequests = () => {
+  const refreshRequestIPTime = bg.ipRefreshRequestTime && bg.ipRefreshRequestTime >= 2 && bg.ipRefreshRequestTime >= 20 ?
+    bg.ipRefreshRequestTime :
+    5;
 
-  bg.getActiveTabId((tabId) => bg.sendPublicIPNotification(tabId));
+  setInterval(() => {
+    bg.refreshPublicIP();
+  }, refreshRequestIPTime * 1000);
+};
 
+bg.startListeningMessages = () => {
   chrome.runtime.onMessage.addListener((message) => {
-    const msg = message.message;
     console.log(message);
+    const msg = message.message;
     switch (msg) {
     case bg.messages.REINITADSL:
       bg.reinitADSL()
@@ -82,10 +98,13 @@ bg.run = () => {
       break;
     }
   });
+};
 
-  setInterval(() => {
-    bg.refreshPublicIP();
-  }, bg.ipRefreshTime);
+bg.run = () => {
+  console.log('BACKGROUND SCRIPT RUN');
+
+  bg.startListeningMessages();
+  bg.startIPRequests();
 };
 
 SAGEM3304.bg = bg;

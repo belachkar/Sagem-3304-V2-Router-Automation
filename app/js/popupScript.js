@@ -1,4 +1,5 @@
 if (typeof SAGEM3304 === 'undefined') SAGEM3304 = {};
+//@TODO Inputs for userName, Password
 
 const popup = {};
 
@@ -7,12 +8,12 @@ console.log('POPUP SCRIPT LOADED');
 popup.messages = SAGEM3304.messages.messages;
 popup.sendMsg = SAGEM3304.messages.sendMsg;
 
-popup.run = () => {
-  console.log('POPUP SCRIPT RUN');
-
+popup.startBtnListeners = () => {
   $('#btnReinitADSL').click(() => popup.sendMsg({ message: popup.messages.REINITADSL }));
   $('#btnRebootRouter').click(() => popup.sendMsg({ message: popup.messages.REBOOTROUTER }));
+};
 
+popup.startMsgListeners = () => {
   chrome.runtime.onMessage.addListener((message) => {
     console.log(message);
     const msg = message.message;
@@ -29,6 +30,13 @@ popup.run = () => {
       break;
     }
   });
+};
+
+popup.run = () => {
+  console.log('POPUP SCRIPT RUN');
+
+  popup.startBtnListeners();
+  popup.startMsgListeners();
   popup.sendMsg({ message: popup.messages.POPUPREADY });
 };
 

@@ -170,4 +170,3 @@ hashPass.binl2hex = (binarray) => {
 };
 
 SAGEM3304.hashPass = hashPass;
-// export { hex_md5 };

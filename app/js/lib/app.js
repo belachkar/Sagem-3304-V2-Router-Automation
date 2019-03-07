@@ -1,6 +1,3 @@
-// import { hex_md5 } from './hashPass';
-// import { querystring } from './utils';
-// import { baseUrl, btns, pages, pass, user_name } from './variables';
 if(typeof(SAGEM3304) === 'undefined') SAGEM3304 = {};
 
 const app = {};

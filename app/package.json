@@ -1,25 +1,19 @@
 {
   "name": "sagem3304v2",
-  "version": "0.0.1",
-  "description": "Sagem 3304 V2 Router Automation",
-  "main": "app.js",
-  "directories": {
-    "lib": "js/lib"
-  },
-  "scripts": {},
+  "version": "1.0.0",
+  "description": "Control Sagem 3304 V2 Router, and display public and local IP Addresses",
   "keywords": [
     "Sagem",
     "3304",
-    "V2",
+    "3304v2",
     "Router",
-    "IP LOCAL",
-    "IP Public"
+    "Local IP",
+    "Public IP"
   ],
-  "author": "B.Ali",
-  "license": "ISC",
-  "dependencies": {
-    "bootstrap": "^4.3.1",
-    "jquery": "^3.3.1",
-    "popper.js": "^1.14.7"
-  }
+  "author": {
+    "name": "Belachkar Ali",
+    "email": "belachkar_ali@hotmail.com",
+    "url": "https://belachkar.com"
+  },
+  "license": "ISC"
 }

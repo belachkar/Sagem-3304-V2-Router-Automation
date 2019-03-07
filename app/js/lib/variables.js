@@ -105,4 +105,3 @@ vars.btns = {
 };
 
 SAGEM3304.vars = vars;
-// export { pages, btns, user_name, pass, baseUrl };

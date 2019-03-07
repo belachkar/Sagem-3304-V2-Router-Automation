@@ -19,4 +19,3 @@ actions.disableIcon = (tabId) => {
 };
 
 SAGEM3304.actions = actions;
-// export { enableIcon, disableIcon };

@@ -6,3 +6,4 @@ schemas
 test
 test.*
 *.html
+ext
