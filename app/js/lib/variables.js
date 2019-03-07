@@ -1,10 +1,14 @@
-const hostname = '192.168.1.1';
-const baseUrl = `http://${hostname}`;
+if(typeof(SAGEM3304) === 'undefined') SAGEM3304 = {};
 
-const user_name = 'Menara';
-const pass = 'Menara';
+const vars = {};
 
-const pages = {
+vars.urlIPApi = 'https://api.ipify.org?format=json';
+vars.hostname = '192.168.1.1';
+vars.baseUrl = `http://${vars.hostname}`;
+vars.user_name = 'Menara';
+vars.pass = 'Menara';
+  
+vars.pages = {
   welcome: 'welcome',
   login: 'login',
   basicMain: 'basicMain',
@@ -13,8 +17,8 @@ const pages = {
   submit: 'submit',
   reboot: 'reboot'
 };
-
-const btns = {
+  
+vars.btns = {
   login_page: {
     submit: {
       value: 'submit_button_login_submit: ..',
@@ -100,4 +104,5 @@ const btns = {
   }
 };
 
+SAGEM3304.vars = vars;
 // export { pages, btns, user_name, pass, baseUrl };

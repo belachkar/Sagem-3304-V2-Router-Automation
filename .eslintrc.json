@@ -29,5 +29,9 @@
       "always"
     ],
     "no-console":"off"
+  },
+  "globals": {
+    "SAGEM3304": true,
+    "toastNow": true
   }
 }

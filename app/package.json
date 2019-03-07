@@ -1,0 +1,25 @@
+{
+  "name": "sagem3304v2",
+  "version": "0.0.1",
+  "description": "Sagem 3304 V2 Router Automation",
+  "main": "app.js",
+  "directories": {
+    "lib": "js/lib"
+  },
+  "scripts": {},
+  "keywords": [
+    "Sagem",
+    "3304",
+    "V2",
+    "Router",
+    "IP LOCAL",
+    "IP Public"
+  ],
+  "author": "B.Ali",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.7"
+  }
+}

@@ -11,11 +11,11 @@
 <body class="border border-info">
 
   <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg justify-content-center">
-        <h3 class="text-info">Sagem 3304 V2 
-          <small class="text-muted">Router Automation</small>
-        </h3>
-    </nav>
+  <nav class="navbar navbar-expand-lg justify-content-center">
+      <h3 class="text-info">Sagem 3304 V2 
+        <small class="text-muted">Router Automation</small>
+      </h3>
+  </nav>
 
     <!-- Main content -->
   <div class="container">
@@ -25,22 +25,21 @@
       <h4>Actions</h4>
       <button id="btnReinitADSL" type="button" class="btn btn-outline-success btn-lg btn-block">Reinitialize Connection ADSL</button>
       <button id="btnRebootRouter" type="button" class="btn btn-outline-success btn-lg btn-block">Reboot</button>
-    </div
     </div>
-    </div>
+  </div>
 
     <!-- Footer IP Addresses -->
-    <table class="mb-0 table table-borderless table-light bg-info text-white">
+    <table class="mb-0 mx-0 table table-borderless table-light bg-info text-white">
       <tbody>
         <tr>
           <td>Local IP</td>
           <!-- TODO Get the local IP from script -->
-          <td>___.___.___.___</td>
+          <td id="tdLocalIP">___.___.___.___</td>
         </tr>
         <tr>
           <td>public IP</td>
           <!-- TODO Get the public IP from API by request -->
-          <td>___.___.___.___</td>
+          <td id="tdPublicIP">___.___.___.___</td>
         </tr>
       </tbody>
     </table>
@@ -49,9 +48,10 @@
   <!-- <script src="../node_modules/jquery/dist/jquery.slim.min.js"></script>
   <script src="../node_modules/popper.js/dist/umd/popper.min.js"></script>
   <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script> -->
-  <script src="./ext/js/jquery.slim.min.js"></script>
-  <script src="./ext/js/popper.min.js"></script>
-  <script src="./ext/js/bootstrap.min.js"></script>
+  <script src="./js/ext/jquery.slim.min.js"></script>
+  <script src="./js/ext/popper.min.js"></script>
+  <script src="./js/ext/bootstrap.min.js"></script>
+  <script src="./js/shared/messages.js"></script>
   <script src="./js/popupScript.js"></script>
 </body>
 </html>

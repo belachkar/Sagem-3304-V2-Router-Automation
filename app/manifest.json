@@ -24,26 +24,31 @@
 		"default_title": "Sagem 3304 V2 Router Automation",
 		"default_popup": "popup.html"
 	},
-	"permissions": [ "http://*/*", "https://*/*", "tabs" ],
+	"permissions": [ "<all_urls>" ],
 	"background": {
 		"scripts": [
-			"./lib/variables.js",
-			"./lib/messages.js",
-			"./lib/utils.js",
-			"./lib/hashPass.js",
-			"./lib/actions.js",
-			"./lib/app.js",
-			"./js/bg.js"
+			"js/lib/variables.js",
+			"js/lib/config.js",
+			"js/shared/messages.js",
+			"js/shared/handlers.js",
+			"js/lib/utils.js",
+			"js/lib/hashPass.js",
+			"js/lib/actions.js",
+			"js/lib/app.js",
+			"js/bg.js"
 		]
 	},
 	"content_scripts": [
 		{
-			"matches": [ "http://*/*", "https://*/*" ],
+			"matches": [ "<all_urls>" ],
 			"js": [
-				"../node_modules/jquery/dist/jquery.slim.min.js",
-				"../node_modules/popper.js/dist/umd/popper.min.js",
-				"../node_modules/bootstrap/dist/js/bootstrap.min.js",
-				"js/script.js"
+				"js/ext/jquery.min.js",
+				"js/ext/popper.min.js",
+				"js/ext/bootstrap.min.js",
+				"js/shared/messages.js",
+				"js/shared/handlers.js",
+				"js/ext/toastMessage.js",
+				"js/contentScript.js"
 			]
 		}
 	]
